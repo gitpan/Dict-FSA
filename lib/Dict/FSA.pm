@@ -1,4 +1,4 @@
-# $Id: FSA.pm,v 1.4 2005/05/23 15:32:15 rousse Exp $
+# $Id: FSA.pm,v 1.6 2005/05/25 14:11:15 rousse Exp $
 
 package Dict::FSA;
 
@@ -8,7 +8,7 @@ Dict::FSA - FSA wrapper
 
 =head1 VERSION
 
-Version 0.1
+Version 0.1.1
 
 =head1 DESCRIPTION
 
@@ -33,7 +33,7 @@ use IO::Handle;
 use strict;
 use warnings;
 
-our $VERSION = '0.1';
+our $VERSION = '0.1.1';
 
 =head1 Class methods
 
@@ -103,7 +103,7 @@ Returns a true value if word is present in the dictionnary, false otherwise.
 sub check {
     my ($self, $word) = @_;
 
-    my @query = $self->_query($word);
+    my @query = $self->query($word);
     return ($query[0] eq '*not found*') ?
 	0 :
 	grep { /^$word$/ } @query;
@@ -120,13 +120,20 @@ parameters passed when creating the object.
 sub suggest {
     my ($self, $word) = @_;
 
-    my @query = $self->_query($word);
+    my @query = $self->query($word);
     return ($query[0] eq '*not found*') ?
 	() :
 	grep { ! /^$word$/ } @query;
 }
 
-sub _query {
+=head2 $dict->query(I<$word>)
+
+Query the dictionnary for word I<$word>.
+Returns the raw result of the query, as a list of words.
+
+=cut
+
+sub query {
     my ($self, $word) = @_;
 
     my ($in, $out) = ($self->{_in}, $self->{_out});
