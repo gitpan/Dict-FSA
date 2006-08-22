@@ -1,4 +1,4 @@
-# $Id: FSA.pm,v 1.6 2005/05/25 14:11:15 rousse Exp $
+# $Id: FSA.pm,v 1.8 2006/08/22 13:11:43 rousse Exp $
 
 package Dict::FSA;
 
@@ -8,7 +8,7 @@ Dict::FSA - FSA wrapper
 
 =head1 VERSION
 
-Version 0.1.1
+Version 0.1.2
 
 =head1 DESCRIPTION
 
@@ -33,7 +33,7 @@ use IO::Handle;
 use strict;
 use warnings;
 
-our $VERSION = '0.1.1';
+our $VERSION = '0.1.2';
 
 =head1 Class methods
 
@@ -76,8 +76,8 @@ an hashref of word file to use
 sub new {
     my ($class, $distance, $wordfiles) = @_;
     my $self = bless {
-	_in  => IO::Handle->new(),
-	_out => IO::Handle->new()
+        _in  => IO::Handle->new(),
+        _out => IO::Handle->new()
     }, $class;
     my $command = "fsa_spell -f -e $distance " . join(" ", map { "-d $_" } @{$wordfiles});
     open2($self->{_out}, $self->{_in}, "$command") or die "Can't run $command: $!";
@@ -105,8 +105,8 @@ sub check {
 
     my @query = $self->query($word);
     return ($query[0] eq '*not found*') ?
-	0 :
-	grep { /^$word$/ } @query;
+        0 :
+        grep { /^$word$/ } @query;
 }
 
 =head2 $dict->suggest(I<$word>)
@@ -122,8 +122,8 @@ sub suggest {
 
     my @query = $self->query($word);
     return ($query[0] eq '*not found*') ?
-	() :
-	grep { ! /^$word$/ } @query;
+        () :
+        grep { ! /^$word$/ } @query;
 }
 
 =head2 $dict->query(I<$word>)

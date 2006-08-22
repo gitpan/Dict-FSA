@@ -1,7 +1,10 @@
-# $Id: Makefile.PL,v 1.1 2005/05/02 16:04:21 rousse Exp $
+# $Id: Makefile.PL,v 1.3 2006/08/22 13:12:28 rousse Exp $
 
 use ExtUtils::MakeMaker;
-use ExtUtils::MakeMaker::Coverage;
+eval {
+    require ExtUtils::MakeMaker::Coverage;
+    import ExtUtils::MakeMaker::Coverage;
+};
 
 WriteMakefile(
     NAME          => 'Dict::FSA',
@@ -9,14 +12,14 @@ WriteMakefile(
     ABSTRACT_FROM => 'lib/Dict/FSA.pm',
     AUTHOR        => 'Guillaume Rousse <grousse@cpan.org>',
     PREREQ_PM     => {
-	'IPC::Open2' => 0,
-	'IO::Handle' => 0
+        'IPC::Open2' => 0,
+        'IO::Handle' => 0
     },
     dist           => {
-	COMPRESS => 'gzip -9f',
-	SUFFIX   => 'gz',
+        COMPRESS => 'gzip -9f',
+        SUFFIX   => 'gz',
     },
     clean          => {
-	FILES => 'Dict-FSA-*'
+        FILES => 'Dict-FSA-*'
     },
 );
